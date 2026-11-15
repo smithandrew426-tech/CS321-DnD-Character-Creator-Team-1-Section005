@@ -38,11 +38,50 @@
         } else{
             console.error("No character data found in localStorage!");
         }
+        // Builds a readable plain-text version of the character for Copy to Clipboard
+        function formatCharacterText(c) {
+            // Turns a list into "a, b, c", or "N/A" if it's empty or missing
+            const list = (arr) => (Array.isArray(arr) && arr.length ? arr.join(", ") : "N/A");
+            const items = Array.isArray(c.backpack?.inventory)
+                ? c.backpack.inventory.map(item => item.name)
+                : [];
+            const scores = c.AbilityScores || {};
+
+            const lines = [
+                "=== D&D Character ===",
+                "",
+                `Class: ${c.class?.className ?? "N/A"}`,
+                `Race: ${c.origin?.race?.name ?? "N/A"}`,
+                `Subrace: ${c.origin?.race?.subrace || "N/A"}`,
+                `Background: ${c.origin?.background?.name ?? "N/A"}`,
+                `Age: ${c.physDetails?.age ?? "N/A"}`,
+                `Height: ${c.physDetails?.height ?? "N/A"}`,
+                "",
+                "--- Ability Scores ---",
+                `STR: ${scores.strength ?? "N/A"}`,
+                `DEX: ${scores.dexterity ?? "N/A"}`,
+                `CON: ${scores.constitution ?? "N/A"}`,
+                `INT: ${scores.intelligence ?? "N/A"}`,
+                `WIS: ${scores.wisdom ?? "N/A"}`,
+                `CHA: ${scores.charisma ?? "N/A"}`,
+                "",
+                "--- Feats & Magic ---",
+                `Feats: ${list(c.feats)}`,
+                `Cantrips: ${list(c.spellsAndCantrips?.cantrips)}`,
+                `Spells: ${list(c.spellsAndCantrips?.spells)}`,
+                "",
+                "--- Equipment ---",
+                `Starting Items: ${list(items)}`,
+                `Starting Gold: ${c.backpack?.money ?? "N/A"}`
+            ];
+            return lines.join("\n");
+        }
+
         // Add event listeners for the export buttons
         document.querySelector("#copyClipboard").addEventListener("click", () => {
             if (generatedCharacter) {
-                // Copy the character JSON to the clipboard using the Clipboard API
-                navigator.clipboard.writeText(JSON.stringify(generatedCharacter)).then(() => {
+                // Copy the character as readable plain text to the clipboard using the Clipboard API
+                navigator.clipboard.writeText(formatCharacterText(generatedCharacter)).then(() => {
                     alert("Character copied to clipboard!");
                 }).catch(err => { // Handle any errors that occur while copying to the clipboard
                     console.error("Failed to copy character: ", err);
