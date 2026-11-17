@@ -14,8 +14,8 @@
             document.querySelector("#left ul li:nth-child(2)").textContent = `Race: ${generatedCharacter.origin.race.name}`;// Populate the race detail
             document.querySelector("#left ul li:nth-child(3)").textContent = `Background: ${generatedCharacter.origin.background.name}`;// Populate the background detail
             document.querySelector("#left ul li:nth-child(4)").textContent = `Subrace: ${generatedCharacter.origin.race.subrace || "N/A"}`;// Populate the subrace detail
-            document.querySelector("#left ul li:nth-child(5)").textContent = `Age: ${generatedCharacter.physDetails.age}`;// Populate the age detail
-            document.querySelector("#left ul li:nth-child(6)").textContent = `Height: ${generatedCharacter.physDetails.height}`;// Populate the height detail
+            document.querySelector("#left ul li:nth-child(5)").textContent = `Age: ${generatedCharacter.physDetails.age} years`;// Populate the age detail
+            document.querySelector("#left ul li:nth-child(6)").textContent = `Height: ${generatedCharacter.physDetails.height}ft`;// Populate the height detail
             // Populate the right section with ability scores and other details
             document.querySelector("#right ul li:nth-child(1)").textContent = `Strength: ${generatedCharacter.AbilityScores.strength}`;// Populate the strength state
             document.querySelector("#right ul li:nth-child(2)").textContent = `Dexterity: ${generatedCharacter.AbilityScores.dexterity}`;// Populate the dexterity state
@@ -31,10 +31,13 @@
             const spells = Array.isArray(generatedCharacter.spellsAndCantrips.spells) ? generatedCharacter.spellsAndCantrips.spells.join(", ") : "";
             document.querySelector("#right ul:nth-of-type(2) li:nth-child(3)").textContent = `Spells: ${spells || "N/A"}`;// Populate the spells detail            document.querySelector("#right ul:nth-of-type(3) li:nth-child(1)").textContent = `Starting Items: ${generatedCharacter.backpack.inventory || "N/A"}`;// Populate the starting items detail
             
-            // Populates the starting items detail
+           // Populates the starting items detail
+            // ? means if the left side is true, then it will execute the right side, otherwise it will execute the right side after the colon
+            // map is a method that creates a new array populated with the results of calling a provided function on every element in the calling array
+            // join is a method that joins all elements of an array into a string
             const startingItems = Array.isArray(generatedCharacter.backpack.inventory) ? generatedCharacter.backpack.inventory.map(item => item.name).join(", ") : "";
             document.querySelector("#right ul:nth-of-type(3) li:nth-child(1)").textContent = `Starting Items: ${startingItems || "N/A"}`;// Populate the starting items detail
-            document.querySelector("#right ul:nth-of-type(3) li:nth-child(2)").textContent = `Starting Gold: ${generatedCharacter.backpack.money}`;// Populate the starting gold detail
+            document.querySelector("#right ul:nth-of-type(3) li:nth-child(2)").textContent = `Starting Gold: ${generatedCharacter.backpack.money} gp`;// Populate the starting gold detail
         } else{
             console.error("No character data found in localStorage!");
         }
