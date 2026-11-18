@@ -55,6 +55,7 @@ function generateRandomCharacter() {
     newCharacter.physDetails.age = generateAge(newCharacter.origin.race.name);
     newCharacter.physDetails.height = generateHeight(newCharacter.origin.race.name);
     newCharacter.AbilityScores = generateAbilityScores(newCharacter.class.className, newCharacter.AbilityScores);
+    newCharacter.AbilityScoresModifiers = generateAbilityScoreModifiers(newCharacter.AbilityScores);
     newCharacter.languages = generateLanguages(newCharacter);
     generateClassFeatures(newCharacter);
 
@@ -199,6 +200,18 @@ function abilityScoreHelper() {
 
     let lowestRoll = Math.min(dice1, dice2, dice3, dice4);
     return (dice1 + dice2 + dice3 + dice4 - lowestRoll);
+}
+
+function generateAbilityScoreModifiers(modelAbilityScores) {
+    let stats = ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"];
+    let abilityScoreModifiers = {};
+
+    for (const stat of stats) {
+        const score = modelAbilityScores[stat];
+        abilityScoreModifiers[stat] = Math.floor((score - 10) / 2);
+    }
+
+    return abilityScoreModifiers;
 }
 
 // Adds the character's class and background starting equipment and their starting gold.
