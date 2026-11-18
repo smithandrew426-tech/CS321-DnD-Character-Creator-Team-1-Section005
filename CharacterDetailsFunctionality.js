@@ -16,13 +16,21 @@
             document.querySelector("#left ul li:nth-child(4)").textContent = `Subrace: ${generatedCharacter.origin.race.subrace || "N/A"}`;// Populate the subrace detail
             document.querySelector("#left ul li:nth-child(5)").textContent = `Age: ${generatedCharacter.physDetails.age} years`;// Populate the age detail
             document.querySelector("#left ul li:nth-child(6)").textContent = `Height: ${generatedCharacter.physDetails.height}ft`;// Populate the height detail
+            
             // Populate the right section with ability scores and other details
-            document.querySelector("#right ul li:nth-child(1)").textContent = `Strength: ${generatedCharacter.AbilityScores.strength}`;// Populate the strength state
-            document.querySelector("#right ul li:nth-child(2)").textContent = `Dexterity: ${generatedCharacter.AbilityScores.dexterity}`;// Populate the dexterity state
-            document.querySelector("#right ul li:nth-child(3)").textContent = `Constitution: ${generatedCharacter.AbilityScores.constitution}`;// Populate the constitution state
-            document.querySelector("#right ul li:nth-child(4)").textContent = `Intelligence: ${generatedCharacter.AbilityScores.intelligence}`;// Populate the intelligence state
-            document.querySelector("#right ul li:nth-child(5)").textContent = `Wisdom: ${generatedCharacter.AbilityScores.wisdom}`;// Populate the wisdom state
-            document.querySelector("#right ul li:nth-child(6)").textContent = `Charisma: ${generatedCharacter.AbilityScores.charisma}`;// Populate the charisma state
+            document.querySelector("#right ul li:nth-child(1)").textContent = `Strength: ${generatedCharacter.AbilityScores.strength} 
+            (${generatedCharacter.AbilityScoresModifiers.strength >= 0 ? '+' : ''}${generatedCharacter.AbilityScoresModifiers.strength})`;// Populate the strength state
+            document.querySelector("#right ul li:nth-child(2)").textContent = `Dexterity: ${generatedCharacter.AbilityScores.dexterity} 
+            (${generatedCharacter.AbilityScoresModifiers.dexterity >= 0 ? '+' : ''}${generatedCharacter.AbilityScoresModifiers.dexterity})`;// Populate the dexterity state
+            document.querySelector("#right ul li:nth-child(3)").textContent = `Constitution: ${generatedCharacter.AbilityScores.constitution} 
+            (${generatedCharacter.AbilityScoresModifiers.constitution >= 0 ? '+' : ''}${generatedCharacter.AbilityScoresModifiers.constitution})`;// Populate the constitution state
+            document.querySelector("#right ul li:nth-child(4)").textContent = `Intelligence: ${generatedCharacter.AbilityScores.intelligence} 
+            (${generatedCharacter.AbilityScoresModifiers.intelligence >= 0 ? '+' : ''}${generatedCharacter.AbilityScoresModifiers.intelligence})`;// Populate the intelligence state
+            document.querySelector("#right ul li:nth-child(5)").textContent = `Wisdom: ${generatedCharacter.AbilityScores.wisdom} 
+            (${generatedCharacter.AbilityScoresModifiers.wisdom >= 0 ? '+' : ''}${generatedCharacter.AbilityScoresModifiers.wisdom})`;// Populate the wisdom state
+            document.querySelector("#right ul li:nth-child(6)").textContent = `Charisma: ${generatedCharacter.AbilityScores.charisma} 
+            (${generatedCharacter.AbilityScoresModifiers.charisma >= 0 ? '+' : ''}${generatedCharacter.AbilityScoresModifiers.charisma})`;// Populate the charisma state
+            
             // Populate the right section with feats, cantrips, and spells
             const feats = Array.isArray(generatedCharacter.feats) ? generatedCharacter.feats.join(", ") : "";
             document.querySelector("#right ul:nth-of-type(2) li:nth-child(1)").textContent = `Feats: ${feats || "N/A"}`;// Populate the feats detail
@@ -49,6 +57,7 @@
                 ? c.backpack.inventory.map(item => item.name)
                 : [];
             const scores = c.AbilityScores || {};
+            const modifiers = c.AbilityScoresModifiers || {};
 
             const lines = [
                 "=== D&D Character ===",
@@ -60,13 +69,13 @@
                 `Age: ${c.physDetails?.age ?? "N/A"}`,
                 `Height: ${c.physDetails?.height ?? "N/A"}`,
                 "",
-                "--- Ability Scores ---",
-                `STR: ${scores.strength ?? "N/A"}`,
-                `DEX: ${scores.dexterity ?? "N/A"}`,
-                `CON: ${scores.constitution ?? "N/A"}`,
-                `INT: ${scores.intelligence ?? "N/A"}`,
-                `WIS: ${scores.wisdom ?? "N/A"}`,
-                `CHA: ${scores.charisma ?? "N/A"}`,
+                "--- Ability Scores ---",// Section header for ability scores and modifiers
+                `STR: ${scores.strength ?? "N/A"} (${modifiers.strength >= 0 ? "+" : ""}${modifiers.strength ?? "N/A"})`,
+                `DEX: ${scores.dexterity ?? "N/A"} (${modifiers.dexterity >= 0 ? "+" : ""}${modifiers.dexterity ?? "N/A"})`,
+                `CON: ${scores.constitution ?? "N/A"} (${modifiers.constitution >= 0 ? "+" : ""}${modifiers.constitution ?? "N/A"})`,
+                `INT: ${scores.intelligence ?? "N/A"} (${modifiers.intelligence >= 0 ? "+" : ""}${modifiers.intelligence ?? "N/A"})`,
+                `WIS: ${scores.wisdom ?? "N/A"} (${modifiers.wisdom >= 0 ? "+" : ""}${modifiers.wisdom ?? "N/A"})`,
+                `CHA: ${scores.charisma ?? "N/A"} (${modifiers.charisma >= 0 ? "+" : ""}${modifiers.charisma ?? "N/A"})`,
                 "",
                 "--- Feats & Magic ---",
                 `Feats: ${list(c.feats)}`,
